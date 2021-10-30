@@ -11,16 +11,16 @@ namespace KenSci.Data.Common.Engines
             return ConfigurationManager.ConnectionStrings["OracleConnectionString"].ConnectionString;
         }
         
-        private string GetSqlServerConnectionString()
+        private string GetSqlConnectionString()
         {
-            return ConfigurationManager.ConnectionStrings["SqlServerConnectionString"].ConnectionString;
+            return ConfigurationManager.ConnectionStrings["SqlConnectionString"].ConnectionString;
         }
         public void SayGoodbye()
         {
             Console.WriteLine("Say Goodbye!!");
             var config = ConfigurationManager.ConnectionStrings["OracleConnectionString"];
-            // Console.WriteLine(GetOracleConnectionString());
-            // Console.WriteLine(GetSqlServerConnectionString());
+            Console.WriteLine(GetOracleConnectionString());
+            Console.WriteLine(GetSqlConnectionString());
 
             Console.WriteLine(config);
         }
