@@ -8,7 +8,7 @@ namespace KenSci.Setup.DataLoader
         {
             var engine = new KenSci.Data.Common.Engines.OracleDataTransferEngine();
             Console.WriteLine("Agent Ken V3");
-            engine.BulkCopy();
+            engine.Import();
         }
     }
 }
