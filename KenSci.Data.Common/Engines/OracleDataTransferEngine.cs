@@ -1,11 +1,11 @@
 using System;
 using System.Configuration;
+using KenSci.Data.Common.Helpers;
 
 namespace KenSci.Data.Common.Engines
 {
     public class OracleDataTransferEngine
     {
-
         private string GetOracleConnectionString()
         {
             return ConfigurationManager.ConnectionStrings["OracleConnectionString"].ConnectionString;
@@ -15,14 +15,12 @@ namespace KenSci.Data.Common.Engines
         {
             return ConfigurationManager.ConnectionStrings["SqlConnectionString"].ConnectionString;
         }
-        public void SayGoodbye()
+        public void BulkCopy()
         {
-            Console.WriteLine("Say Goodbye!!");
+            LogHelper.Logger.Info("Bulk Copy started ... ");
             var config = ConfigurationManager.ConnectionStrings["OracleConnectionString"];
-            Console.WriteLine(GetOracleConnectionString());
-            Console.WriteLine(GetSqlConnectionString());
-
-            Console.WriteLine(config);
+            LogHelper.Logger.Info(GetOracleConnectionString());
+            LogHelper.Logger.Info(GetSqlConnectionString());
         }
     }
 }
