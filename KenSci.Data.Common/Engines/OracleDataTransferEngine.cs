@@ -84,12 +84,25 @@ namespace KenSci.Data.Common.Engines
             
 
         }
-        public void Import()
+        public bool Import()
         {
             LogHelper.Logger.Info("Import started ... ");
             var config = ConfigurationManager.ConnectionStrings["OracleConnectionString"];
             LogHelper.Logger.Info(GetOracleConnectionString());
             LogHelper.Logger.Info(GetSqlConnectionString());
+
+            var startTime = DateTime.Now;
+            LogHelper.Logger.Info("Import started: Oracle -> SQL Server");
+
+            var dt = GetOracleData();
+            LogHelper.Logger.Info("Record Count: " + dt.Rows.Count.ToString());
+            InsertSqlData(dt);
+            LogHelper.Logger.Info("Import complete: Oracle -> SQL Server");
+
+            int timeSpan = (DateTime.Now - startTime).Seconds;
+            LogHelper.Logger.Info(timeSpan.ToString() + " Seconds");
+
+            return true;
         }
     }
 }
