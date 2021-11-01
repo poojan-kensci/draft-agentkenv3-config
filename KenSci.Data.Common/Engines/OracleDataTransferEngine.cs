@@ -81,9 +81,8 @@ namespace KenSci.Data.Common.Engines
                     bulkCopy.WriteToServer(dt);
                 }
             }
-            
-
         }
+        
         public bool Import()
         {
             LogHelper.Logger.Info("Import started ... ");
