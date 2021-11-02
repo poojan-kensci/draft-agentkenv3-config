@@ -57,6 +57,16 @@ namespace KenSci.Setup.DataLoader
             var sourceConnectionString = $"Data Source={sourceServer};Initial Catalog={sourceDb};User ID=sa;Password=Pass123!;Connection Timeout=3000";
             var destinationConnectionString = $"Data Source={destinationServer};Initial Catalog={destinationDb};User ID=sa;Password=Pass123!;Connection Timeout=3000";
 
+            GenerateDestinationSchema(
+                sourceServer,
+                sourceDb,
+                tableSchema,
+                tableName,
+                destinationServer,
+                destinationDb,
+                destinationSchema
+            );
+            /*
             var sqlCmd = new StringBuilder();
             sqlCmd.Append(
                 $"if not exists (select * from sys.objects where object_id = OBJECT_ID(N'[{destinationSchema}].[{tableName}]') and type in (N'U'))");
@@ -107,6 +117,7 @@ namespace KenSci.Setup.DataLoader
                    command.ExecuteNonQuery();
                }
             }
+            */
 
 
             /*
@@ -168,6 +179,72 @@ namespace KenSci.Setup.DataLoader
 
             // LogHelper.Logger.Info(scriptedDb);
             // Console.WriteLine(scriptedDb);
+        }
+
+        private static void GenerateDestinationSchema(
+            string sourceServer,
+            string sourceDb,
+            string tableSchema,
+            string tableName,
+            string destinationServer,
+            string destinationDb,
+            string destinationSchema
+            )
+        {
+            
+            var sourceConnectionString = $"Data Source={sourceServer};Initial Catalog={sourceDb};User ID=sa;Password=Pass123!;Connection Timeout=3000";
+            var destinationConnectionString = $"Data Source={destinationServer};Initial Catalog={destinationDb};User ID=sa;Password=Pass123!;Connection Timeout=3000";
+            
+            var sqlCmd = new StringBuilder();
+            sqlCmd.Append(
+                $"if not exists (select * from sys.objects where object_id = OBJECT_ID(N'[{destinationSchema}].[{tableName}]') and type in (N'U'))");
+            sqlCmd.Append($"create table {destinationSchema}.{tableName} ( {Environment.NewLine}");
+            
+
+            using (var sourceConnection = new SqlConnection(sourceConnectionString))
+            {
+                sourceConnection.Open();
+                String[] columnRestrictions = new String[4];
+                columnRestrictions[0] = sourceDb;
+                columnRestrictions[1] = tableSchema;
+                columnRestrictions[2] = tableName;
+                DataTable sourceTableSchemaTable = sourceConnection.GetSchema("Columns", columnRestrictions);
+                Console.WriteLine(sourceTableSchemaTable.Rows[0]);
+                var selectedRows = from info in sourceTableSchemaTable.AsEnumerable()
+                    select new
+                    {
+                        TableCatalog = info["TABLE_CATALOG"],
+                        TableSchema = info["TABLE_SCHEMA"],
+                        TableName = info["TABLE_NAME"],
+                        ColumnName = info["COLUMN_NAME"],
+                        DataType = info["DATA_TYPE"],
+                        CharacterMaximumLength = info["CHARACTER_MAXIMUM_LENGTH"],
+                    };
+
+                foreach (var row0 in selectedRows)
+                {
+                    Console.WriteLine("{0,-15}{1,-15}{2,-15}{3,-15}{4,-15}{5,-15}", row0.TableCatalog,
+                        row0.TableSchema, row0.TableName, row0.ColumnName, row0.DataType, row0.CharacterMaximumLength);
+                    sqlCmd.Append($"  {row0.ColumnName} {row0.DataType}({row0.CharacterMaximumLength}),{Environment.NewLine}");
+                }
+            }
+            
+            sqlCmd.Append(")");
+            
+            Console.WriteLine(sqlCmd.ToString());
+
+            Console.WriteLine(destinationConnectionString);
+
+            using (var connection = new SqlConnection(destinationConnectionString))
+            {
+               connection.Open();
+               using (var command = new SqlCommand(sqlCmd.ToString(), connection))
+               {
+                   command.CommandTimeout = 3600;
+                   command.CommandType = CommandType.Text;
+                   command.ExecuteNonQuery();
+               }
+            }
         }
     }
 }
