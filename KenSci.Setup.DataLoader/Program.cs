@@ -12,19 +12,45 @@ namespace KenSci.Setup.DataLoader
 {
     internal class Program
     {
+        private static DataRow FetchConfigData()
+        {
+            var configConnectionString =
+                "Data Source=localhost;Initial Catalog=AgentKenConfig;User ID=sa;Password=Pass123!;Connection Timeout=3000";
+            
+            using (var connection = new SqlConnection(configConnectionString))
+            {
+                string sql = "select * from KSAgent_Config_Tbl";
+                using (var da = new SqlDataAdapter(sql, connection))
+                {
+                    var tblConfig = new DataTable();
+                    connection.Open();
+                    da.Fill(tblConfig);
+                    var row = tblConfig.Rows[0];
+
+                    return row;
+                }
+            }
+        }
         public static void Main(string[] args)
         {
             var engine = new KenSci.Data.Common.Engines.OracleDataTransferEngine();
             Console.WriteLine("Agent Ken V3");
             // engine.Import();
 
-            // var sqlConnectionString = engine.GetSqlConnectionString();
-            var sqlConnectionString =
-                "Data Source=localhost;Initial Catalog=AgentKenConfig;User ID=sa;Password=Pass123!;Connection Timeout=3000";
+            var row = FetchConfigData();
             
-            Console.WriteLine(sqlConnectionString);
-
+            var sourceDb = row.Field<string>("SourceDb");
+            var sourceServer = row.Field<string>("SourceServer");
+            var tableSchema = row.Field<string>("TableSchema");
+            var tableName = row.Field<string>("TableName");
+            var destinationSchema = row.Field<string>("DestinationSchema");
             
+            Console.WriteLine("SourceServer: {0}, SourceDb: {1}", sourceServer, sourceDb);
+            Console.WriteLine("TableSchema: {0}, TableName: {1}", tableSchema, tableName);
+            Console.WriteLine("DestinationSchema: {0}", destinationSchema);
+            
+            
+            /*
             using (var connection = new SqlConnection(sqlConnectionString))
             {
                 Console.WriteLine(connection);
@@ -57,6 +83,7 @@ namespace KenSci.Setup.DataLoader
                 }
             }
             
+            */
             
             
 
