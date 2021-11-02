@@ -14,7 +14,7 @@ namespace KenSci.Data.Common.Engines
             return ConfigurationManager.ConnectionStrings["OracleConnectionString"].ConnectionString;
         }
         
-        private string GetSqlConnectionString()
+        public string GetSqlConnectionString()
         {
             return ConfigurationManager.ConnectionStrings["SqlConnectionString"].ConnectionString;
         }
@@ -82,8 +82,19 @@ namespace KenSci.Data.Common.Engines
                 }
             }
         }
-        
+
+
         public bool Import()
+        {
+            LogHelper.Logger.Info("Import started ... ");
+            var config = ConfigurationManager.ConnectionStrings["OracleConnectionString"];
+            // LogHelper.Logger.Info(GetOracleConnectionString());
+            LogHelper.Logger.Info(GetSqlConnectionString());
+
+            return true;
+        }
+
+        public bool Import0()
         {
             LogHelper.Logger.Info("Import started ... ");
             var config = ConfigurationManager.ConnectionStrings["OracleConnectionString"];
