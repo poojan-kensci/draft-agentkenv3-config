@@ -92,7 +92,19 @@ namespace KenSci.Setup.DataLoader
             sqlCmd.Append(")");
             
             Console.WriteLine(sqlCmd.ToString());
-            
+
+            Console.WriteLine(destinationConnectionString);
+
+            using (var connection = new SqlConnection(destinationConnectionString))
+            {
+               connection.Open();
+               using (var command = new SqlCommand(sqlCmd.ToString(), connection))
+               {
+                   command.CommandTimeout = 3600;
+                   command.CommandType = CommandType.Text;
+                   command.ExecuteNonQuery();
+               }
+            }
 
 
             /*
