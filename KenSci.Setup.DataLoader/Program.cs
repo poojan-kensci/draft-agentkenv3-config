@@ -47,23 +47,14 @@ namespace KenSci.Setup.DataLoader
                         Console.WriteLine("SourceServer: {0}, SourceDb: {1}", sourceServer, sourceDb);
                         Console.WriteLine("TableSchema: {0}, TableName: {1}", tableSchema, tableName);
                         Console.WriteLine("DestinationSchema: {0}", destinationSchema);
+                        
+                        
                     }
                     catch (Exception ex)
                     {
                         throw;
                     }
                 }
-                // var command = new SqlCommand(sql, connection);
-                //     command.CommandTimeout = 3600;
-                //     command.CommandType = CommandType.Text;
-                //     var sqlDataReader = command.ExecuteReader();
-                //
-                //     while (sqlDataReader.Read())
-                //     {
-                //         Console.WriteLine(sqlDataReader[0]);
-                //     }
-                //     
-                //     sqlDataReader.Close();
             }
             
             
