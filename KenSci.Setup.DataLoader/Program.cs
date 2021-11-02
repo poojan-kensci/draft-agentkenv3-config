@@ -2,6 +2,7 @@
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Text;
 using KenSci.Data.Common.Contracts.DTO;
 using KenSci.Data.Common.Engines;
 using KenSci.Data.Common.Helpers;
@@ -56,6 +57,9 @@ namespace KenSci.Setup.DataLoader
             var sourceConnectionString = $"Data Source={sourceServer};Initial Catalog={sourceDb};User ID=sa;Password=Pass123!;Connection Timeout=3000";
             var destinationConnectionString = $"Data Source={destinationServer};Initial Catalog={destinationDb};User ID=sa;Password=Pass123!;Connection Timeout=3000";
 
+            var sqlCmd = new StringBuilder();
+            sqlCmd.Append($"create table {destinationSchema}.{tableName} ( {Environment.NewLine}");
+            
 
             using (var sourceConnection = new SqlConnection(sourceConnectionString))
             {
@@ -81,9 +85,13 @@ namespace KenSci.Setup.DataLoader
                 {
                     Console.WriteLine("{0,-15}{1,-15}{2,-15}{3,-15}{4,-15}{5,-15}", row0.TableCatalog,
                         row0.TableSchema, row0.TableName, row0.ColumnName, row0.DataType, row0.CharacterMaximumLength);
+                    sqlCmd.Append($"  {row0.ColumnName} {row0.DataType}({row0.CharacterMaximumLength}),{Environment.NewLine}");
                 }
             }
             
+            sqlCmd.Append(")");
+            
+            Console.WriteLine(sqlCmd.ToString());
             
 
 
