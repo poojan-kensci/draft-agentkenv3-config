@@ -55,6 +55,31 @@ namespace KenSci.Setup.DataLoader
 
             var sourceConnectionString = $"Data Source={sourceServer};Initial Catalog={sourceDb};User ID=sa;Password=Pass123!;Connection Timeout=3000";
             var destinationConnectionString = $"Data Source={destinationServer};Initial Catalog={destinationDb};User ID=sa;Password=Pass123!;Connection Timeout=3000";
+
+
+            using (var sourceConnection = new SqlConnection(sourceConnectionString))
+            {
+                sourceConnection.Open();
+                DataTable sourceTableSchemaTable = sourceConnection.GetSchema("Columns");
+                Console.WriteLine(sourceTableSchemaTable.Rows[0]);
+                var selectedRows = from info in sourceTableSchemaTable.AsEnumerable()
+                    select new
+                    {
+                        TableCatalog = info["TABLE_CATALOG"],
+                        TableSchema = info["TABLE_SCHEMA"],
+                        TableName = info["TABLE_NAME"],
+                        ColumnName = info["COLUMN_NAME"],
+                        DataType = info["DATA_TYPE"],
+                        CharacterMaximumLength = info["CHARACTER_MAXIMUM_LENGTH"],
+                    };
+
+                foreach (var row0 in selectedRows)
+                {
+                    Console.WriteLine("{0,-15}{1,-15}{2,-15}{3,-15}{4,-15}{5,-15}", row0.TableCatalog,
+                        row0.TableSchema, row0.TableName, row0.ColumnName, row0.DataType, row0.CharacterMaximumLength);
+                }
+            }
+            
             
 
 
