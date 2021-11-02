@@ -16,7 +16,6 @@ namespace KenSci.Setup.DataLoader
         public static void Main(string[] args)
         {
             var engine = new KenSci.Data.Common.Engines.OracleDataTransferEngine();
-            Console.WriteLine("Agent Ken V3");
 
             var configDataRow = FetchConfigData();
             
@@ -30,9 +29,9 @@ namespace KenSci.Setup.DataLoader
             // var destinationDb = sourceDb;
             var destinationDb = "kensci1";
             
-            Console.WriteLine("SourceServer: {0}, SourceDb: {1}", sourceServer, sourceDb);
-            Console.WriteLine("TableSchema: {0}, TableName: {1}", tableSchema, tableName);
-            Console.WriteLine("DestinationSchema: {0}", destinationSchema);
+            LogHelper.Logger.Info($"SourceServer: {sourceServer}, SourceDb: {sourceDb}");
+            LogHelper.Logger.Info($"TableSchema: {tableSchema}, TableName: {tableName}");
+            LogHelper.Logger.Info($"DestinationSchema: {destinationSchema}");
 
             GenerateDestinationSchema(
                 sourceServer,
@@ -49,6 +48,7 @@ namespace KenSci.Setup.DataLoader
         
         private static DataRow FetchConfigData()
         {
+            LogHelper.Logger.Info("Fetching Config Data ...");
             var configConnectionString =
                 "Data Source=localhost;Initial Catalog=AgentKenConfig;User ID=sa;Password=Pass123!;Connection Timeout=3000";
             
@@ -62,6 +62,7 @@ namespace KenSci.Setup.DataLoader
                     da.Fill(tblConfig);
                     var row = tblConfig.Rows[0];
 
+                    LogHelper.Logger.Info("Fetching Config Data complete.");
                     return row;
                 }
             }
@@ -77,6 +78,7 @@ namespace KenSci.Setup.DataLoader
             string destinationSchema
             )
         {
+            LogHelper.Logger.Info("Generating Destination Schema ...");
             var sourceConnectionString = $"Data Source={sourceServer};Initial Catalog={sourceDb};User ID=sa;Password=Pass123!;Connection Timeout=3000";
             var destinationConnectionString = $"Data Source={destinationServer};Initial Catalog={destinationDb};User ID=sa;Password=Pass123!;Connection Timeout=3000";
             
@@ -93,7 +95,6 @@ namespace KenSci.Setup.DataLoader
                 columnRestrictions[1] = tableSchema;
                 columnRestrictions[2] = tableName;
                 DataTable sourceTableSchemaTable = sourceConnection.GetSchema("Columns", columnRestrictions);
-                Console.WriteLine(sourceTableSchemaTable.Rows[0]);
                 var selectedRows = from info in sourceTableSchemaTable.AsEnumerable()
                     select new
                     {
@@ -127,6 +128,8 @@ namespace KenSci.Setup.DataLoader
                    command.CommandTimeout = 3600;
                    command.CommandType = CommandType.Text;
                    command.ExecuteNonQuery();
+
+                   LogHelper.Logger.Info("Generating Destination Schema complete");
                }
             }
         }
