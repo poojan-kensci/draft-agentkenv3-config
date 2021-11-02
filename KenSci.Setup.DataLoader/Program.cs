@@ -58,6 +58,8 @@ namespace KenSci.Setup.DataLoader
             var destinationConnectionString = $"Data Source={destinationServer};Initial Catalog={destinationDb};User ID=sa;Password=Pass123!;Connection Timeout=3000";
 
             var sqlCmd = new StringBuilder();
+            sqlCmd.Append(
+                $"if not exists (select * from sys.objects where object_id = OBJECT_ID(N'[{destinationSchema}].[{tableName}]') and type in (N'U'))");
             sqlCmd.Append($"create table {destinationSchema}.{tableName} ( {Environment.NewLine}");
             
 
