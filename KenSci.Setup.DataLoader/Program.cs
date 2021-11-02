@@ -60,7 +60,11 @@ namespace KenSci.Setup.DataLoader
             using (var sourceConnection = new SqlConnection(sourceConnectionString))
             {
                 sourceConnection.Open();
-                DataTable sourceTableSchemaTable = sourceConnection.GetSchema("Columns");
+                String[] columnRestrictions = new String[4];
+                columnRestrictions[0] = sourceDb;
+                columnRestrictions[1] = tableSchema;
+                columnRestrictions[2] = tableName;
+                DataTable sourceTableSchemaTable = sourceConnection.GetSchema("Columns", columnRestrictions);
                 Console.WriteLine(sourceTableSchemaTable.Rows[0]);
                 var selectedRows = from info in sourceTableSchemaTable.AsEnumerable()
                     select new
