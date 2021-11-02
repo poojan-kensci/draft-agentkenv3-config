@@ -263,7 +263,10 @@
     <ItemGroup>
         <Compile Include="Contracts\Base\LoggableComponent.cs" />
         <Compile Include="Contracts\DTO\ScriptedSqlObject.cs" />
+        <Compile Include="Contracts\IDataTransfer.cs" />
+        <Compile Include="Engines\OracleDataTransfer.cs" />
         <Compile Include="Engines\OracleDataTransferEngine.cs" />
+        <Compile Include="Engines\SqlDataTransfer.cs" />
         <Compile Include="Engines\SQLManagementObjectEngine.cs" />
         <Compile Include="Helpers\LogHelper.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
