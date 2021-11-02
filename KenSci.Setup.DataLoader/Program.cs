@@ -39,17 +39,25 @@ namespace KenSci.Setup.DataLoader
 
             var row = FetchConfigData();
             
-            var sourceDb = row.Field<string>("SourceDb");
             var sourceServer = row.Field<string>("SourceServer");
+            var sourceDb = row.Field<string>("SourceDb");
             var tableSchema = row.Field<string>("TableSchema");
             var tableName = row.Field<string>("TableName");
             var destinationSchema = row.Field<string>("DestinationSchema");
+
+            var destinationServer = sourceServer;
+            // var destinationDb = sourceDb;
+            var destinationDb = "kensci1";
             
             Console.WriteLine("SourceServer: {0}, SourceDb: {1}", sourceServer, sourceDb);
             Console.WriteLine("TableSchema: {0}, TableName: {1}", tableSchema, tableName);
             Console.WriteLine("DestinationSchema: {0}", destinationSchema);
+
+            var sourceConnectionString = $"Data Source={sourceServer};Initial Catalog={sourceDb};User ID=sa;Password=Pass123!;Connection Timeout=3000";
+            var destinationConnectionString = $"Data Source={destinationServer};Initial Catalog={destinationDb};User ID=sa;Password=Pass123!;Connection Timeout=3000";
             
-            
+
+
             /*
             using (var connection = new SqlConnection(sqlConnectionString))
             {
@@ -84,11 +92,11 @@ namespace KenSci.Setup.DataLoader
             }
             
             */
-            
-            
+
+
 
             // ServerConnection serverConnection = new ServerConnection(sqlConnectionString);
-            
+
             // var srv = new Server();
             // srv.ConnectionContext.ConnectionString = sqlConnectionString;
 
