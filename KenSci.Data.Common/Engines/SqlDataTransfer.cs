@@ -47,7 +47,7 @@ namespace KenSci.Data.Common.Engines
             LogHelper.Logger.Info("Generating Destination Schema ...");
 
             var destinationConnectionString =
-                $"Data Source={destinationServer};Initial Catalog={destinationDb};User ID=sa;Password=Pass123!;Connection Timeout=3000";
+                $"Data Source={destinationServer};Initial Catalog={destinationDb};User ID=sa;Password=Pass123!;Connection Timeout=3600";
 
             var sqlCmd = new StringBuilder();
             sqlCmd.Append(
