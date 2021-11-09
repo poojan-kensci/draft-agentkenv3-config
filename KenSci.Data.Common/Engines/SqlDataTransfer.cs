@@ -51,7 +51,7 @@ namespace KenSci.Data.Common.Engines
 
             var sqlCmd = new StringBuilder();
             sqlCmd.Append(
-                $"if not exists (select * from sys.objects where object_id = OBJECT_ID(N'[{destinationSchema}].[{tableName}]') and type in (N'U'))");
+                $"if not exists (select * from sys.objects where object_id = OBJECT_ID(N'[{destinationSchema}].[{tableName}]') and type in (N'U')) {Environment.NewLine}");
             sqlCmd.Append($"create table {destinationSchema}.{tableName} ( {Environment.NewLine}");
 
             DataTable sourceTableSchemaTable = FetchSourceSchema(

@@ -34,7 +34,8 @@ namespace KenSci.Setup.DataLoader
             LogHelper.Logger.Info($"TableSchema: {tableSchema}, TableName: {tableName}");
             LogHelper.Logger.Info($"DestinationSchema: {destinationSchema}");
 
-            IDataTransfer dataTransfer = new SqlDataTransfer();
+            // IDataTransfer dataTransfer = new SqlDataTransfer();
+            IDataTransfer dataTransfer = new OracleDataTransfer();
 
             dataTransfer.GenerateDestinationSchema(
                 sourceServer,
