@@ -1,8 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KenSci.Setup.DataLoader", "KenSci.Setup.DataLoader\KenSci.Setup.DataLoader.csproj", "{7481BE86-1973-4038-8A40-70BDA8593BE5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KenSci.Data.Common", "KenSci.Data.Common\KenSci.Data.Common.csproj", "{C793DC64-FC95-4CC1-A56A-0BF7DF8489D4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KenSci.Data.Common.Tests", "KenSci.Data.Common.Tests\KenSci.Data.Common.Tests.csproj", "{04BAD10D-7BA8-4B6E-ACE2-7635767B2751}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -18,5 +21,9 @@ Global
 		{C793DC64-FC95-4CC1-A56A-0BF7DF8489D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C793DC64-FC95-4CC1-A56A-0BF7DF8489D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C793DC64-FC95-4CC1-A56A-0BF7DF8489D4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{04BAD10D-7BA8-4B6E-ACE2-7635767B2751}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{04BAD10D-7BA8-4B6E-ACE2-7635767B2751}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{04BAD10D-7BA8-4B6E-ACE2-7635767B2751}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{04BAD10D-7BA8-4B6E-ACE2-7635767B2751}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

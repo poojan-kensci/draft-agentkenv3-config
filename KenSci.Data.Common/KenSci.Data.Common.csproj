@@ -271,6 +271,7 @@
         <Compile Include="Helpers\DbConnectionStringHelper.cs" />
         <Compile Include="Helpers\LogHelper.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
+        <Compile Include="Singletons\ConnectionsCache.cs" />
     </ItemGroup>
     <ItemGroup>
       <None Include="App.config" />
