@@ -4,13 +4,13 @@ using System.Data.SqlClient;
 using System.Text;
 using KenSci.Data.Common.Contracts;
 using KenSci.Data.Common.Helpers;
+using KenSci.Data.Common.Singletons;
 
 namespace KenSci.Data.Common.Engines
 {
     public class SqlDataTransfer : IDataTransfer
     {
         public DataTable FetchSourceSchema(
-            string sourceServer,
             string sourceDb,
             string tableSchema,
             string tableName
@@ -18,8 +18,7 @@ namespace KenSci.Data.Common.Engines
         {
             LogHelper.Logger.Info("Fetching Source Table Schema ...");
 
-            var sourceConnectionString =
-                $"Data Source={sourceServer};Initial Catalog={sourceDb};User ID=sa;Password=Pass123!;Connection Timeout=3600";
+            var sourceConnectionString = (string) ConnectionsCache.GetInstance.GetOrNull("sourceConnectionString");
 
             using (var sourceConnection = new SqlConnection(sourceConnectionString))
             {
@@ -35,19 +34,13 @@ namespace KenSci.Data.Common.Engines
         }
 
         public void GenerateDestinationSchema(
-            string sourceServer,
-            string sourceDb,
-            string tableSchema,
             string tableName,
-            string destinationServer,
-            string destinationDb,
             string destinationSchema
         )
         {
             LogHelper.Logger.Info("Generating Destination Schema ...");
 
-            var destinationConnectionString =
-                $"Data Source={destinationServer};Initial Catalog={destinationDb};User ID=sa;Password=Pass123!;Connection Timeout=3600";
+            var destinationConnectionString = (string) ConnectionsCache.GetInstance.GetOrNull("destinationConnectionString");
 
             var sqlCmd = new StringBuilder();
             sqlCmd.Append(
@@ -55,9 +48,8 @@ namespace KenSci.Data.Common.Engines
             sqlCmd.Append($"create table {destinationSchema}.{tableName} ( {Environment.NewLine}");
 
             DataTable sourceTableSchemaTable = FetchSourceSchema(
-                sourceServer,
-                sourceDb,
-                tableSchema,
+                null, // unused for Oracle
+                null, // unused for Oracle
                 tableName
             );
 

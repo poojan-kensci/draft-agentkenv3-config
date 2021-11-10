@@ -62,12 +62,7 @@ namespace KenSci.Setup.DataLoader
             IDataTransfer dataTransfer = new OracleDataTransfer();
 
             dataTransfer.GenerateDestinationSchema(
-                sourceServer,
-                sourceDb,
-                tableSchema,
                 tableName,
-                destinationServer,
-                destinationDb,
                 destinationSchema
             );
 

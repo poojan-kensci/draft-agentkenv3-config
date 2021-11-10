@@ -12,12 +12,10 @@ namespace KenSci.Data.Common.Engines
 {
     public class OracleDataTransfer : IDataTransfer
     {
-        public DataTable FetchSourceSchema(string sourceServer, string sourceDb, string tableSchema, string tableName)
+        public DataTable FetchSourceSchema(string sourceDb, string tableSchema, string tableName)
         {
             LogHelper.Logger.Info("Fetching Source Table Schema ...");
 
-            // var sourceConnectionString =
-            //     $"USER ID=system;DATA SOURCE=20.114.38.166/oratest1;PASSWORD=OraPasswd1";
             var sourceConnectionString = DbConnectionStringHelper.GetSourceConnectionString();
 
             using (var sourceConnection = new OracleConnection(sourceConnectionString))
@@ -51,12 +49,7 @@ namespace KenSci.Data.Common.Engines
         }
 
         public void GenerateDestinationSchema(
-            string sourceServer,
-            string sourceDb,
-            string tableSchema,
             string tableName,
-            string destinationServer,
-            string destinationDb,
             string destinationSchema
         )
         {
@@ -69,12 +62,7 @@ namespace KenSci.Data.Common.Engines
                 $"if not exists (select * from sys.objects where object_id = OBJECT_ID(N'[{destinationSchema}].[{tableName}]') and type in (N'U')) {Environment.NewLine}");
             sqlCmd.Append($"create table {destinationSchema}.{tableName} ( {Environment.NewLine}");
 
-            DataTable sourceTableSchemaTable = FetchSourceSchema(
-                sourceServer,
-                sourceDb,
-                tableSchema,
-                tableName
-            );
+            DataTable sourceTableSchemaTable = FetchSourceSchema(null, null, tableName);
 
             var noOfColumns = sourceTableSchemaTable.Rows.Count;
             LogHelper.Logger.Info($"No of Columns: {noOfColumns.ToString()}");
