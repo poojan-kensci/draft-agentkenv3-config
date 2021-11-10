@@ -18,7 +18,7 @@ namespace KenSci.Data.Common.Engines
         {
             LogHelper.Logger.Info("Fetching Source Table Schema ...");
 
-            var sourceConnectionString = (string) ConnectionsCache.GetInstance.GetOrNull("sourceConnectionString");
+            var sourceConnectionString = (string) ConnectionsCache.Instance.GetOrNull("sourceConnectionString");
 
             using (var sourceConnection = new SqlConnection(sourceConnectionString))
             {
@@ -40,7 +40,7 @@ namespace KenSci.Data.Common.Engines
         {
             LogHelper.Logger.Info("Generating Destination Schema ...");
 
-            var destinationConnectionString = (string) ConnectionsCache.GetInstance.GetOrNull("destinationConnectionString");
+            var destinationConnectionString = (string) ConnectionsCache.Instance.GetOrNull("destinationConnectionString");
 
             var sqlCmd = new StringBuilder();
             sqlCmd.Append(

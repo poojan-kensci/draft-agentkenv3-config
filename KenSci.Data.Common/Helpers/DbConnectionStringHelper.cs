@@ -12,7 +12,7 @@ namespace KenSci.Data.Common.Helpers
 
         public static string GetSourceConnectionString()
         {
-            return (string) ConnectionsCache.GetInstance.GetOrNull("sourceConnectionString");
+            return (string) ConnectionsCache.Instance.GetOrNull("sourceConnectionString");
         }
 
         public static string GetSqlConnectionString(string server, string db, string userId, string password)
@@ -24,7 +24,7 @@ namespace KenSci.Data.Common.Helpers
 
         public static string GetDestinationConnectionString()
         {
-            return (string) ConnectionsCache.GetInstance.GetOrNull("destinationConnectionString");
+            return (string) ConnectionsCache.Instance.GetOrNull("destinationConnectionString");
         }
 
         public static string GetOracleConnectionString(string server, string db, string userId, string password)

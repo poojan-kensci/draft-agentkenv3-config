@@ -10,11 +10,11 @@ namespace KenSci.Data.Common.Tests
 
         public ConnectionsCacheTests()
         {
-            _connectionsCache = ConnectionsCache.GetInstance;    
+            _connectionsCache = ConnectionsCache.Instance;
             _connectionsCache.Add("TestKey1", "TestValue1");
             _connectionsCache.Add("TestKey2", "TestValue2");
         }
-        
+
         [TestMethod]
         public void ShouldContainInitialValues()
         {

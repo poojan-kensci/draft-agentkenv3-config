@@ -46,7 +46,7 @@ namespace KenSci.Setup.DataLoader
                 DbConnectionStringHelper.GetSqlConnectionString(destinationServer, destinationDb, destinationUserId,
                     destinationPassword);
 
-            var connectionsCache = ConnectionsCache.GetInstance;
+            var connectionsCache = ConnectionsCache.Instance;
 
             connectionsCache.Add("sourceConnectionString", sourceConnectionString);
             connectionsCache.Add("destinationConnectionString", destinationConnectionString);

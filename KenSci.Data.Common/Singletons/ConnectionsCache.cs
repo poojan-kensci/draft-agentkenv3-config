@@ -10,7 +10,7 @@ namespace KenSci.Data.Common.Singletons
         
         private static ConnectionsCache _instance = null;
 
-        public static ConnectionsCache GetInstance
+        public static ConnectionsCache Instance
         {
             get
             {
