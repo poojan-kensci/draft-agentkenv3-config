@@ -1,14 +1,8 @@
-﻿using System;
-using System.Data;
+﻿using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
 using KenSci.Data.Common.Contracts;
-using KenSci.Data.Common.Contracts.DTO;
 using KenSci.Data.Common.Engines;
 using KenSci.Data.Common.Helpers;
-using Microsoft.SqlServer.Management.Common;
-using Microsoft.SqlServer.Management.Smo;
 
 namespace KenSci.Setup.DataLoader
 {

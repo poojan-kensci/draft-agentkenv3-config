@@ -5,6 +5,7 @@ using System.Text;
 using KenSci.Data.Common.Contracts;
 using KenSci.Data.Common.Helpers;
 using System.Data.SqlClient;
+using NLog;
 using Oracle.ManagedDataAccess.Client;
 
 namespace KenSci.Data.Common.Engines
@@ -22,6 +23,7 @@ namespace KenSci.Data.Common.Engines
             {
                 sourceConnection.Open();
                 String[] columnRestrictions = new String[3];
+                // TODO: Restrict on sourceDb
                 // columnRestrictions[0] = sourceDb;
                 columnRestrictions[1] = tableName.ToUpper();
 
@@ -101,9 +103,7 @@ namespace KenSci.Data.Common.Engines
 
             sqlCmd.Append(")");
 
-            Console.WriteLine(sqlCmd.ToString());
-
-            Console.WriteLine(destinationConnectionString);
+            LogHelper.Logger.Info(sqlCmd.ToString());
 
             using (var connection = new SqlConnection(destinationConnectionString))
             {
