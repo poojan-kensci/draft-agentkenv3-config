@@ -62,12 +62,7 @@ namespace KenSci.Data.Common.Engines
         {
             LogHelper.Logger.Info("Generating Destination Schema ...");
 
-            var destinationConnectionString = DbConnectionStringHelper.GetDestinationConnectionString(destinationServer, destinationDb);
-
-            // var destinationConnectionString =
-                // $"Data Source={destinationServer};Initial Catalog={destinationDb};User ID=sa;Password=Pass123!;Connection Timeout=3600";
-
-            Console.WriteLine($"destinationConnectionString: {destinationConnectionString}");
+            var destinationConnectionString = DbConnectionStringHelper.GetDestinationConnectionString();
 
             var sqlCmd = new StringBuilder();
             sqlCmd.Append(

@@ -1,4 +1,5 @@
 using System.Configuration;
+using KenSci.Data.Common.Singletons;
 
 namespace KenSci.Data.Common.Helpers
 {
@@ -8,22 +9,27 @@ namespace KenSci.Data.Common.Helpers
         {
             return ConfigurationManager.ConnectionStrings["ConfigConnectionString"].ConnectionString;
         }
-        
-        // NOTE: This should be fetched from config database.
+
         public static string GetSourceConnectionString()
         {
+            return (string) ConnectionsCache.GetInstance.GetOrNull("sourceConnectionString");
+        }
+
+        public static string GetSqlConnectionString(string server, string db, string userId, string password)
+        {
+            return
+                $"Data Source={server};Initial Catalog={db};User ID={userId};Password={password};Connection Timeout=3600";
             return ConfigurationManager.ConnectionStrings["SourceConnectionString"].ConnectionString;
         }
-        
-        // NOTE: This should be fetched from config database.
+
         public static string GetDestinationConnectionString()
         {
-            return ConfigurationManager.ConnectionStrings["DestinationConnectionString"].ConnectionString;
+            return (string) ConnectionsCache.GetInstance.GetOrNull("destinationConnectionString");
         }
-        
-        public static string GetDestinationConnectionString(string server, string db)
+
+        public static string GetOracleConnectionString(string server, string db, string userId, string password)
         {
-            return ConfigurationManager.ConnectionStrings["DestinationConnectionString"].ConnectionString;
+            return $"USER ID={userId};DATA SOURCE={server}/{db};PASSWORD={password}";
         }
     }
 }

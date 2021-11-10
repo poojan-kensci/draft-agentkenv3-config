@@ -1,8 +1,10 @@
-﻿using System.Data;
+﻿using System;
+using System.Data;
 using System.Data.SqlClient;
 using KenSci.Data.Common.Contracts;
 using KenSci.Data.Common.Engines;
 using KenSci.Data.Common.Helpers;
+using KenSci.Data.Common.Singletons;
 
 namespace KenSci.Setup.DataLoader
 {
@@ -20,9 +22,37 @@ namespace KenSci.Setup.DataLoader
             var tableName = configDataRow.Field<string>("TableName");
             var destinationSchema = configDataRow.Field<string>("DestinationSchema");
 
-            var destinationServer = sourceServer;
-            // var destinationDb = sourceDb;
+            // Console.WriteLine(sourceServer);
+            // Console.WriteLine(sourceDb);
+            // Console.WriteLine(tableSchema);
+            // Console.WriteLine(tableName);
+            // Console.WriteLine(destinationSchema);
+
+            // TODO: Get these from commandline parameters.
+            var sourceUserId = "system";
+            var sourcePassword = "OraPasswd1";
+            var destinationUserId = "sa";
+            var destinationPassword = "Pass123!";
+
+            // TODO: Get this from config table or commandline parameters.
+            // var destinationServer = "20.114.38.166";
+            var destinationServer = "localhost";
             var destinationDb = "kensci1";
+
+            var sourceConnectionString =
+                DbConnectionStringHelper.GetOracleConnectionString(sourceServer, sourceDb, sourceUserId,
+                    sourcePassword);
+            var destinationConnectionString =
+                DbConnectionStringHelper.GetSqlConnectionString(destinationServer, destinationDb, destinationUserId,
+                    destinationPassword);
+
+            var connectionsCache = ConnectionsCache.GetInstance;
+
+            connectionsCache.Add("sourceConnectionString", sourceConnectionString);
+            connectionsCache.Add("destinationConnectionString", destinationConnectionString);
+
+            LogHelper.Logger.Info($"sourceConnectionString: {sourceConnectionString}");
+            LogHelper.Logger.Info($"destinationConnectionString: {destinationConnectionString}");
 
             LogHelper.Logger.Info($"SourceServer: {sourceServer}, SourceDb: {sourceDb}");
             LogHelper.Logger.Info($"TableSchema: {tableSchema}, TableName: {tableName}");
