@@ -5,7 +5,7 @@ using System.Text;
 using KenSci.Data.Common.Contracts;
 using KenSci.Data.Common.Helpers;
 using System.Data.SqlClient;
-using NLog;
+using Microsoft.SqlServer.Management.Smo;
 using Oracle.ManagedDataAccess.Client;
 
 namespace KenSci.Data.Common.Engines
@@ -16,8 +16,9 @@ namespace KenSci.Data.Common.Engines
         {
             LogHelper.Logger.Info("Fetching Source Table Schema ...");
 
-            var sourceConnectionString =
-                $"USER ID=system;DATA SOURCE=20.114.38.166/oratest1;PASSWORD=OraPasswd1";
+            // var sourceConnectionString =
+            //     $"USER ID=system;DATA SOURCE=20.114.38.166/oratest1;PASSWORD=OraPasswd1";
+            var sourceConnectionString = DbConnectionStringHelper.GetSourceConnectionString();
 
             using (var sourceConnection = new OracleConnection(sourceConnectionString))
             {
@@ -41,9 +42,9 @@ namespace KenSci.Data.Common.Engines
                 9. CHAR_USED
                 10. LENGTHINCHARS
                 */
-                
+
                 DataTable sourceTableSchemaTable = sourceConnection.GetSchema("Columns", columnRestrictions);
-                
+
                 LogHelper.Logger.Info("Fetching Source Table Schema complete.");
                 return sourceTableSchemaTable;
             }
@@ -61,8 +62,12 @@ namespace KenSci.Data.Common.Engines
         {
             LogHelper.Logger.Info("Generating Destination Schema ...");
 
-            var destinationConnectionString =
-                $"Data Source={destinationServer};Initial Catalog={destinationDb};User ID=sa;Password=Pass123!;Connection Timeout=3600";
+            var destinationConnectionString = DbConnectionStringHelper.GetDestinationConnectionString(destinationServer, destinationDb);
+
+            // var destinationConnectionString =
+                // $"Data Source={destinationServer};Initial Catalog={destinationDb};User ID=sa;Password=Pass123!;Connection Timeout=3600";
+
+            Console.WriteLine($"destinationConnectionString: {destinationConnectionString}");
 
             var sqlCmd = new StringBuilder();
             sqlCmd.Append(

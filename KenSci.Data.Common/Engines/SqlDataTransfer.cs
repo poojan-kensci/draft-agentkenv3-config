@@ -20,6 +20,8 @@ namespace KenSci.Data.Common.Engines
 
             var sourceConnectionString =
                 $"Data Source={sourceServer};Initial Catalog={sourceDb};User ID=sa;Password=Pass123!;Connection Timeout=3600";
+            
+            Console.WriteLine($"sourceConnectionString: {sourceConnectionString}");
 
             using (var sourceConnection = new SqlConnection(sourceConnectionString))
             {
