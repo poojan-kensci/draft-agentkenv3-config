@@ -76,9 +76,10 @@ namespace KenSci.Data.Common.Engines
                 tableName
             );
 
-            Console.WriteLine("sourceTableSchemaTable.Rows.Count");
-            Console.WriteLine(sourceTableSchemaTable.Rows.Count);
+            var noOfColumns = sourceTableSchemaTable.Rows.Count;
+            LogHelper.Logger.Info($"No of Columns: {noOfColumns.ToString()}");
 
+            // Oracle to SQL data type mapping
             Dictionary<string, string> dataTypeAdapterDict = new Dictionary<string, string>
             {
                 { "NUMBER", "INTEGER" },
@@ -92,10 +93,6 @@ namespace KenSci.Data.Common.Engines
                     DataType = dataTypeAdapterDict[info["DATATYPE"].ToString()],
                     CharacterMaximumLength = info["LENGTH"],
                 };
-
-            Console.WriteLine("POST selectedRows");
-            Console.WriteLine(selectedRows.Count());
-
 
             foreach (var row in selectedRows)
             {
