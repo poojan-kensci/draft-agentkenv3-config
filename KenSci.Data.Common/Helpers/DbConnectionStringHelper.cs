@@ -21,6 +21,11 @@ namespace KenSci.Data.Common.Helpers
         }
         
         // NOTE: This should be fetched from config database.
+        public static string GetDestinationConnectionString()
+        {
+            return ConfigurationManager.ConnectionStrings["DestinationConnectionString"].ConnectionString;
+        }
+        
         public static string GetDestinationConnectionString(string server, string db)
         {
             return ConfigurationManager.ConnectionStrings["DestinationConnectionString"].ConnectionString;

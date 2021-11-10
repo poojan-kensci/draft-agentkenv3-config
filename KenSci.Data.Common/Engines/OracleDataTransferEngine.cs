@@ -9,19 +9,9 @@ namespace KenSci.Data.Common.Engines
 {
     public class OracleDataTransferEngine
     {
-        private string GetOracleConnectionString()
-        {
-            return ConfigurationManager.ConnectionStrings["OracleConnectionString"].ConnectionString;
-        }
-        
-        public string GetSqlConnectionString()
-        {
-            return ConfigurationManager.ConnectionStrings["SqlConnectionString"].ConnectionString;
-        }
-
         private DataTable GetOracleData()
         {
-            string oracleConnectionString = GetOracleConnectionString();
+            string oracleConnectionString = DbConnectionStringHelper.GetSourceConnectionString();
             DataSet returnDataset = new DataSet();
 
             using (OracleConnection oracleConnection = new OracleConnection(oracleConnectionString))
@@ -30,7 +20,7 @@ namespace KenSci.Data.Common.Engines
                 oracleConnection.Open();
                 LogHelper.Logger.Info("Oracle connected.");
                 
-                string sql = "SELECT id, name, " +
+                string sql0 = "SELECT id, name, " +
                              "col1, col2, col3, col4, col5, col6, col7, col8, col9, " +
                              "col10, col11, col12, col13, col14, col15, col16, col17, col18, col19, " +
                              "col20, col21, col22, col23, col24, col25, col26, col27, col28, col29, " +
@@ -43,6 +33,8 @@ namespace KenSci.Data.Common.Engines
                              "col90, col91, col92, col93, col94, col95, col96, col97, col98, col99, " +
                              "col100 " +
                              "FROM data_items";
+                
+                string sql = "SELECT * FROM data_items";
 
                 using (OracleCommand command = new OracleCommand(sql, oracleConnection))
                 {
@@ -59,7 +51,7 @@ namespace KenSci.Data.Common.Engines
         private void InsertSqlData(DataTable dt)
         {
             string sql = "truncate table data_items;" + Environment.NewLine;
-            string sqlConnectionString = GetSqlConnectionString();
+            string sqlConnectionString = DbConnectionStringHelper.GetDestinationConnectionString();
 
             using (var connection = new SqlConnection(sqlConnectionString))
             {
@@ -76,30 +68,35 @@ namespace KenSci.Data.Common.Engines
 
                 using (var bulkCopy = new SqlBulkCopy(connection))
                 {
+                    LogHelper.Logger.Info("Bulk copy started ...");
                     bulkCopy.BulkCopyTimeout = 3600;
                     bulkCopy.DestinationTableName = "data_items";
+                    Console.WriteLine(dt.Rows.Count);
                     bulkCopy.WriteToServer(dt);
+                    LogHelper.Logger.Info("Bulk copy complete.");
                 }
             }
         }
 
+
+        public bool Import1()
+        {
+            LogHelper.Logger.Info("Import started ... ");
+            var config = ConfigurationManager.ConnectionStrings["OracleConnectionString"];
+            // LogHelper.Logger.Info(GetOracleConnectionString());
+            // LogHelper.Logger.Info(GetSqlConnectionString());
+
+            return true;
+        }
 
         public bool Import()
         {
             LogHelper.Logger.Info("Import started ... ");
             var config = ConfigurationManager.ConnectionStrings["OracleConnectionString"];
             // LogHelper.Logger.Info(GetOracleConnectionString());
-            LogHelper.Logger.Info(GetSqlConnectionString());
-
-            return true;
-        }
-
-        public bool Import0()
-        {
-            LogHelper.Logger.Info("Import started ... ");
-            var config = ConfigurationManager.ConnectionStrings["OracleConnectionString"];
-            LogHelper.Logger.Info(GetOracleConnectionString());
-            LogHelper.Logger.Info(GetSqlConnectionString());
+            // LogHelper.Logger.Info(GetSqlConnectionString());
+            LogHelper.Logger.Info(DbConnectionStringHelper.GetSourceConnectionString());
+            LogHelper.Logger.Info(DbConnectionStringHelper.GetDestinationConnectionString());
 
             var startTime = DateTime.Now;
             LogHelper.Logger.Info("Import started: Oracle -> SQL Server");

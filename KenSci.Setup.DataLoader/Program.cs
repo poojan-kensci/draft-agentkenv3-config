@@ -41,7 +41,7 @@ namespace KenSci.Setup.DataLoader
                 destinationSchema
             );
 
-            // engine.Import();
+            engine.Import();
         }
 
         private static DataRow FetchConfigData()
