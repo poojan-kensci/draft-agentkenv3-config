@@ -78,23 +78,10 @@ namespace KenSci.Data.Common.Engines
             }
         }
 
-
-        public bool Import1()
-        {
-            LogHelper.Logger.Info("Import started ... ");
-            var config = ConfigurationManager.ConnectionStrings["OracleConnectionString"];
-            // LogHelper.Logger.Info(GetOracleConnectionString());
-            // LogHelper.Logger.Info(GetSqlConnectionString());
-
-            return true;
-        }
-
         public bool Import()
         {
             LogHelper.Logger.Info("Import started ... ");
             var config = ConfigurationManager.ConnectionStrings["OracleConnectionString"];
-            // LogHelper.Logger.Info(GetOracleConnectionString());
-            // LogHelper.Logger.Info(GetSqlConnectionString());
             LogHelper.Logger.Info(DbConnectionStringHelper.GetSourceConnectionString());
             LogHelper.Logger.Info(DbConnectionStringHelper.GetDestinationConnectionString());
 

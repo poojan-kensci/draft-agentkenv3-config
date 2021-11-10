@@ -4,14 +4,9 @@ namespace KenSci.Data.Common.Helpers
 {
     public class DbConnectionStringHelper
     {
-        public static string GetOracleConnectionString()
+        public static string GetConfigConnectionString()
         {
-            return ConfigurationManager.ConnectionStrings["OracleConnectionString"].ConnectionString;
-        }
-        
-        public static string GetSqlConnectionString()
-        {
-            return ConfigurationManager.ConnectionStrings["SqlConnectionString"].ConnectionString;
+            return ConfigurationManager.ConnectionStrings["ConfigConnectionString"].ConnectionString;
         }
         
         // NOTE: This should be fetched from config database.

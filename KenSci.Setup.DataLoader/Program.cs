@@ -47,8 +47,8 @@ namespace KenSci.Setup.DataLoader
         private static DataRow FetchConfigData()
         {
             LogHelper.Logger.Info("Fetching Config Data ...");
-            var configConnectionString =
-                "Data Source=localhost;Initial Catalog=AgentKenConfig;User ID=sa;Password=Pass123!;Connection Timeout=3000";
+
+            var configConnectionString = DbConnectionStringHelper.GetConfigConnectionString();
 
             using (var connection = new SqlConnection(configConnectionString))
             {
