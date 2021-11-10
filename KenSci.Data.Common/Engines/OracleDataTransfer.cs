@@ -1,12 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Linq;
 using System.Text;
 using KenSci.Data.Common.Contracts;
 using KenSci.Data.Common.Helpers;
 using System.Data.SqlClient;
-using NLog;
 using Oracle.ManagedDataAccess.Client;
 
 namespace KenSci.Data.Common.Engines
